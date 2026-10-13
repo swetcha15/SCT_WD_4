@@ -12,7 +12,8 @@
   const STORAGE_KEYS = {
     TASKS: 'daynote_tasks',
     NOTES: 'daynote_notes',
-    ACTIVE_TAB: 'daynote_active_tab'
+    ACTIVE_TAB: 'daynote_active_tab',
+    THEME: 'daynote_theme'
   };
 
   const state = {
@@ -20,6 +21,7 @@
     notes: [],
     activeTab: 'tasks',
     taskFilter: 'all',
+    theme: 'light',
     activeNoteId: null,
     searchQuery: '',
     calendar: {
@@ -37,6 +39,9 @@
   const elements = {
     currentDateDisplay: document.getElementById('current-date-display'),
     btnHeaderAddTask: document.getElementById('btn-header-add-task'),
+    btnThemeToggle: document.getElementById('btn-theme-toggle'),
+    iconMoon: document.querySelector('.icon-moon'),
+    iconSun: document.querySelector('.icon-sun'),
     
     // Navigation
     navTabs: document.querySelectorAll('.nav-tab'),
@@ -366,6 +371,9 @@
     const li = document.createElement('li');
     li.className = `task-item ${task.completed ? 'completed' : ''}`;
     li.dataset.id = task.id;
+    if (task.priority && task.priority !== 'none') {
+      li.dataset.priority = task.priority;
+    }
 
     // Checkbox
     const checkBtn = document.createElement('button');
@@ -923,9 +931,59 @@
   }
 
   // =========================================================================
+  // THEME MANAGEMENT (LIGHT / DARK MODE)
+  // =========================================================================
+  function initTheme() {
+    const savedTheme = localStorage.getItem(STORAGE_KEYS.THEME);
+    if (savedTheme === 'dark' || savedTheme === 'light') {
+      setTheme(savedTheme);
+    } else {
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      setTheme(prefersDark ? 'dark' : 'light');
+    }
+  }
+
+  function setTheme(theme) {
+    state.theme = theme;
+    document.documentElement.setAttribute('data-theme', theme);
+    try {
+      localStorage.setItem(STORAGE_KEYS.THEME, theme);
+    } catch (err) {
+      console.warn('Could not save theme preference:', err);
+    }
+
+    if (elements.iconMoon && elements.iconSun) {
+      if (theme === 'dark') {
+        elements.iconMoon.classList.add('hidden');
+        elements.iconSun.classList.remove('hidden');
+        if (elements.btnThemeToggle) {
+          elements.btnThemeToggle.setAttribute('aria-label', 'Switch to light mode');
+          elements.btnThemeToggle.setAttribute('title', 'Switch to light mode');
+        }
+      } else {
+        elements.iconMoon.classList.remove('hidden');
+        elements.iconSun.classList.add('hidden');
+        if (elements.btnThemeToggle) {
+          elements.btnThemeToggle.setAttribute('aria-label', 'Switch to dark mode');
+          elements.btnThemeToggle.setAttribute('title', 'Switch to dark mode');
+        }
+      }
+    }
+  }
+
+  function toggleTheme() {
+    const nextTheme = state.theme === 'dark' ? 'light' : 'dark';
+    setTheme(nextTheme);
+  }
+
+  // =========================================================================
   // EVENT LISTENERS & SETUP
   // =========================================================================
   function setupEventListeners() {
+    // Theme toggle
+    if (elements.btnThemeToggle) {
+      elements.btnThemeToggle.addEventListener('click', toggleTheme);
+    }
     // Navigation Tabs
     elements.navTabs.forEach((tab) => {
       tab.addEventListener('click', () => {
@@ -999,6 +1057,9 @@
   // INITIALIZATION
   // =========================================================================
   function init() {
+    // 0. Initialize theme
+    initTheme();
+
     // 1. Display formatted date in header
     elements.currentDateDisplay.textContent = formatDisplayHeaderDate();
 

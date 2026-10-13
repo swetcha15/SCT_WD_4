@@ -8,9 +8,10 @@ Built as part of **SkillCraft Task 04**, Daynote combines daily task management,
 
 ## ✨ Design Philosophy
 
-- **Quiet Color Palette**: Soft off-white canvas (`#FAF9FC`), muted lavender accents (`#A78BFA`), charcoal typography (`#282631`), and subtle gray-lavender borders (`#EBE7F2`).
+- **Vibrant Lavender & Mood**: Ambient lavender-tinted background with soft radial depth, crisp elevated cards, and dark charcoal typography.
+- **Color Highlights**: Left-border priority indicators on tasks (Coral-Rose for High, Lavender for Medium, Slate for Low) and a prominent highlight tile for Today in the Calendar.
+- **Dark Mode**: Full midnight-purple dark theme with glowing lavender accents, toggled seamlessly via the header button and persisted in `localStorage`.
 - **Whitespace & Simplicity**: Zero clutter, no dashboards, no statistics widgets, and no distracting neon colors.
-- **Gentle Hierarchy**: Overdue tasks are highlighted with a calm dusky mauve tag rather than alarming bright alerts.
 - **Modern Clean Typography**: Set in Google's *Plus Jakarta Sans* with clean geometric proportions and comfortable line heights.
 
 ---

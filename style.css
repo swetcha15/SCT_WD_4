@@ -1,50 +1,58 @@
 /* ==========================================================================
    DAYNOTE — Minimal Lavender Productivity App
-   Clean, quiet visual hierarchy, generous whitespace, soft lavender palette.
+   Clean, vibrant lavender productivity with Light and Dark modes.
    ========================================================================== */
 
 /* --- Custom Properties / Design Tokens --- */
 :root {
-  /* Core Backgrounds */
-  --bg-app: #FAF9FC;
+  /* Core Backgrounds (Light Mode - Warm Lavender Tinted) */
+  --bg-app: #F2EEF9;
+  --bg-body-gradient: radial-gradient(circle at 50% 0%, #ECE4F9 0%, #F3EEFA 45%, #F7F5FC 100%);
   --bg-surface: #FFFFFF;
-  --bg-surface-subtle: #F6F4F9;
-  --bg-surface-hover: #F2EEF8;
+  --bg-surface-subtle: #F6F2FB;
+  --bg-surface-hover: #EFE8F8;
   
   /* Lavender Accents */
-  --lavender-primary: #A78BFA;
-  --lavender-deep: #7C5CC5;
-  --lavender-darker: #6343AE;
-  --lavender-soft: #EDE8F9;
-  --lavender-subtle: #F5F2FC;
-  --lavender-border: #E5DEF4;
+  --lavender-primary: #8B5CF6;
+  --lavender-deep: #7C4DF0;
+  --lavender-darker: #6336D0;
+  --lavender-soft: #EDE4FB;
+  --lavender-subtle: #F6F1FC;
+  --lavender-border: #D8CBF3;
 
   /* Text & Charcoal */
-  --text-main: #282631;
-  --text-secondary: #656172;
-  --text-muted: #9591A2;
-  --text-light: #B7B4C4;
+  --text-main: #24222E;
+  --text-secondary: #5F5A6F;
+  --text-muted: #8E88A2;
+  --text-light: #B4AFD0;
 
   /* Borders & Dividers */
-  --border-light: #EBE7F2;
-  --border-subtle: #F0EDF6;
-  --border-focus: #C4B5FD;
+  --border-light: #DFD5F2;
+  --border-subtle: #EBE4F7;
+  --border-focus: #8B5CF6;
 
-  /* Gentle Status Accents (strictly non-alarming) */
-  --overdue-bg: #F8EEF1;
-  --overdue-text: #8C5A68;
-  --overdue-border: #EED7DC;
+  /* Status Badges */
+  --overdue-bg: #FCE8ED;
+  --overdue-text: #9E354F;
+  --overdue-border: #F7CAD4;
   
-  --priority-high-bg: #F8EEF1;
-  --priority-high-text: #8C5A68;
-  --priority-med-bg: #F1EDFA;
-  --priority-med-text: #6D51A8;
-  --priority-low-bg: #EFF1F5;
-  --priority-low-text: #5A6578;
+  --priority-high-bg: #FCE8ED;
+  --priority-high-text: #9E354F;
+  --priority-med-bg: #F1E9FC;
+  --priority-med-text: #693BD2;
+  --priority-low-bg: #EDF2F7;
+  --priority-low-text: #455A75;
 
-  /* Shadows (Minimal, soft, only when necessary) */
-  --shadow-subtle: 0 1px 3px rgba(40, 38, 49, 0.04), 0 1px 2px rgba(40, 38, 49, 0.02);
-  --shadow-modal: 0 8px 24px rgba(40, 38, 49, 0.08), 0 2px 6px rgba(40, 38, 49, 0.04);
+  /* Accent indicators */
+  --indicator-high: #E06D8A;
+  --indicator-med: #8B5CF6;
+  --indicator-low: #64748B;
+  --indicator-none: #D8CBF3;
+
+  /* Shadows (Elevated, soft) */
+  --shadow-subtle: 0 4px 14px rgba(124, 77, 240, 0.05), 0 1px 3px rgba(36, 34, 46, 0.03);
+  --shadow-card: 0 4px 20px -2px rgba(112, 70, 200, 0.07), 0 2px 6px rgba(36, 34, 46, 0.03);
+  --shadow-modal: 0 16px 36px rgba(36, 34, 46, 0.12), 0 4px 10px rgba(36, 34, 46, 0.06);
 
   /* Typography & Sizing */
   --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -56,6 +64,60 @@
   /* Transitions */
   --transition-fast: 0.15s ease;
   --transition-normal: 0.2s ease;
+}
+
+/* ==========================================================================
+   DARK MODE PALETTE
+   ========================================================================== */
+[data-theme="dark"] {
+  /* Core Backgrounds (Dark Mode - Midnight Lavender) */
+  --bg-app: #100E18;
+  --bg-body-gradient: radial-gradient(circle at 50% 0%, #1F1934 0%, #141120 50%, #0E0C16 100%);
+  --bg-surface: #181525;
+  --bg-surface-subtle: #211D33;
+  --bg-surface-hover: #2B2542;
+  
+  /* Lavender Accents */
+  --lavender-primary: #A78BFA;
+  --lavender-deep: #8B5CF6;
+  --lavender-darker: #7C4DF0;
+  --lavender-soft: #2B2048;
+  --lavender-subtle: #1D1732;
+  --lavender-border: #3F3366;
+
+  /* Text & Charcoal */
+  --text-main: #F4F1FA;
+  --text-secondary: #B4ACC9;
+  --text-muted: #7D7697;
+  --text-light: #524B6B;
+
+  /* Borders & Dividers */
+  --border-light: #2C2642;
+  --border-subtle: #221D35;
+  --border-focus: #A78BFA;
+
+  /* Status Badges */
+  --overdue-bg: #3A1B25;
+  --overdue-text: #F897AD;
+  --overdue-border: #5A2737;
+  
+  --priority-high-bg: #3A1B25;
+  --priority-high-text: #F897AD;
+  --priority-med-bg: #2B2048;
+  --priority-med-text: #CBB4FA;
+  --priority-low-bg: #1B2334;
+  --priority-low-text: #96B2D4;
+
+  /* Accent indicators */
+  --indicator-high: #F37D9B;
+  --indicator-med: #A78BFA;
+  --indicator-low: #7388A3;
+  --indicator-none: #3F3366;
+
+  /* Shadows (Dark) */
+  --shadow-subtle: 0 4px 16px rgba(0, 0, 0, 0.35);
+  --shadow-card: 0 6px 22px rgba(0, 0, 0, 0.45);
+  --shadow-modal: 0 20px 48px rgba(0, 0, 0, 0.65);
 }
 
 /* --- Global Reset & Box Sizing --- */
@@ -75,12 +137,15 @@ html {
 body {
   font-family: var(--font-family);
   background-color: var(--bg-app);
+  background-image: var(--bg-body-gradient);
+  background-attachment: fixed;
   color: var(--text-main);
   line-height: 1.5;
   min-height: 100vh;
   display: flex;
   justify-content: center;
   overflow-x: hidden;
+  transition: background-color var(--transition-normal), color var(--transition-normal);
 }
 
 /* Form and button baseline */
@@ -115,9 +180,9 @@ textarea:focus-visible {
 /* --- Container (Single-column, Mobile-first) --- */
 .app-container {
   width: 100%;
-  max-width: 600px;
+  max-width: 620px;
   margin: 0 auto;
-  padding: 28px 18px 80px;
+  padding: 30px 18px 80px;
   display: flex;
   flex-direction: column;
   gap: 22px;
@@ -141,28 +206,65 @@ textarea:focus-visible {
 .brand-row {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 9px;
 }
 
 .brand-dot {
-  width: 7px;
-  height: 7px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   background-color: var(--lavender-primary);
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.45);
   display: inline-block;
 }
 
 .brand-title {
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: 1.3rem;
+  font-weight: 700;
   letter-spacing: -0.025em;
   color: var(--text-main);
 }
 
 .current-date {
-  font-size: 0.85rem;
+  font-size: 0.84rem;
   color: var(--text-secondary);
   font-weight: 400;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Theme Toggle Button */
+.btn-theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-pill);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-subtle);
+}
+
+.btn-theme-toggle:hover {
+  background-color: var(--lavender-subtle);
+  border-color: var(--lavender-border);
+  color: var(--lavender-deep);
+  transform: translateY(-1px);
+}
+
+.btn-theme-toggle:active {
+  transform: translateY(0);
+}
+
+.btn-theme-toggle svg.hidden {
+  display: none;
 }
 
 /* Subtle Add Button */
@@ -170,13 +272,13 @@ textarea:focus-visible {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 14px;
+  padding: 8px 15px;
   border-radius: var(--radius-pill);
   background-color: var(--bg-surface);
   border: 1px solid var(--border-light);
   color: var(--text-main);
   font-size: 0.85rem;
-  font-weight: 500;
+  font-weight: 600;
   transition: all var(--transition-fast);
   box-shadow: var(--shadow-subtle);
   min-height: 38px;
@@ -186,10 +288,11 @@ textarea:focus-visible {
   background-color: var(--lavender-subtle);
   border-color: var(--lavender-border);
   color: var(--lavender-deep);
+  transform: translateY(-1px);
 }
 
 .btn-subtle-add:active {
-  transform: scale(0.98);
+  transform: translateY(0);
 }
 
 /* --- Navigation Tabs --- */
@@ -204,8 +307,9 @@ textarea:focus-visible {
   background-color: var(--bg-surface-subtle);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-pill);
-  padding: 3px;
-  gap: 3px;
+  padding: 4px;
+  gap: 4px;
+  box-shadow: var(--shadow-subtle);
 }
 
 .nav-tab {
@@ -214,7 +318,7 @@ textarea:focus-visible {
   align-items: center;
   justify-content: center;
   gap: 7px;
-  padding: 8px 12px;
+  padding: 9px 12px;
   border-radius: var(--radius-pill);
   font-size: 0.88rem;
   font-weight: 500;
@@ -232,20 +336,21 @@ textarea:focus-visible {
   color: var(--text-main);
   font-weight: 600;
   box-shadow: var(--shadow-subtle);
+  border: 1px solid var(--border-subtle);
 }
 
 .tab-badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 18px;
-  height: 18px;
-  padding: 0 5px;
+  min-width: 19px;
+  height: 19px;
+  padding: 0 6px;
   border-radius: var(--radius-pill);
   background-color: var(--lavender-soft);
   color: var(--lavender-deep);
-  font-size: 0.72rem;
-  font-weight: 600;
+  font-size: 0.74rem;
+  font-weight: 700;
   line-height: 1;
 }
 
@@ -285,7 +390,7 @@ textarea:focus-visible {
 }
 
 .filter-pill {
-  padding: 6px 12px;
+  padding: 6px 14px;
   border-radius: var(--radius-pill);
   font-size: 0.82rem;
   font-weight: 500;
@@ -303,9 +408,10 @@ textarea:focus-visible {
 
 .filter-pill.active {
   background-color: var(--lavender-soft);
-  color: var(--lavender-darker);
+  color: var(--lavender-deep);
   font-weight: 600;
   border-color: var(--lavender-border);
+  box-shadow: var(--shadow-subtle);
 }
 
 /* Task Input Card */
@@ -313,13 +419,14 @@ textarea:focus-visible {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-lg);
-  padding: 14px 16px;
-  box-shadow: var(--shadow-subtle);
-  transition: border-color var(--transition-fast);
+  padding: 16px 18px;
+  box-shadow: var(--shadow-card);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .task-input-card:focus-within {
   border-color: var(--lavender-primary);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.12), var(--shadow-card);
 }
 
 .task-form {
@@ -330,7 +437,7 @@ textarea:focus-visible {
 
 .task-text-input {
   width: 100%;
-  font-size: 0.95rem;
+  font-size: 0.98rem;
   color: var(--text-main);
   line-height: 1.4;
   padding: 2px 0;
@@ -358,13 +465,13 @@ textarea:focus-visible {
 .custom-field {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   background-color: var(--bg-surface-subtle);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
-  padding: 5px 8px;
+  padding: 6px 10px;
   color: var(--text-secondary);
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   transition: all var(--transition-fast);
 }
 
@@ -381,44 +488,52 @@ textarea:focus-visible {
 }
 
 .date-input {
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   color: var(--text-secondary);
   cursor: pointer;
 }
 
 .date-input::-webkit-calendar-picker-indicator {
   cursor: pointer;
-  opacity: 0.6;
+  opacity: 0.7;
 }
 
 .priority-select {
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   color: var(--text-secondary);
   cursor: pointer;
   background: transparent;
+}
+
+.priority-select option {
+  background-color: var(--bg-surface);
+  color: var(--text-main);
 }
 
 .btn-primary-add {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 6px 16px;
+  padding: 7px 18px;
   background-color: var(--lavender-deep);
   color: #FFFFFF;
   border-radius: var(--radius-pill);
-  font-size: 0.84rem;
-  font-weight: 500;
+  font-size: 0.85rem;
+  font-weight: 600;
   transition: all var(--transition-fast);
   margin-left: auto;
-  min-height: 32px;
+  min-height: 34px;
+  box-shadow: 0 2px 8px rgba(124, 77, 240, 0.28);
 }
 
 .btn-primary-add:hover {
   background-color: var(--lavender-darker);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(124, 77, 240, 0.35);
 }
 
 .btn-primary-add:active {
-  transform: scale(0.97);
+  transform: translateY(0);
 }
 
 .form-error-msg {
@@ -437,29 +552,49 @@ textarea:focus-visible {
 .task-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 9px;
 }
 
-/* Individual Task Row */
+/* Individual Task Row (with Colorful Highlight Accent Strip) */
 .task-item {
   display: flex;
   align-items: flex-start;
   gap: 12px;
   background-color: var(--bg-surface);
   border: 1px solid var(--border-light);
+  border-left: 4px solid var(--indicator-none);
   border-radius: var(--radius-md);
-  padding: 12px 14px;
-  box-shadow: var(--shadow-subtle);
-  transition: background-color var(--transition-fast), border-color var(--transition-fast), opacity var(--transition-fast);
+  padding: 13px 15px;
+  box-shadow: var(--shadow-card);
+  transition: all var(--transition-fast);
 }
 
 .task-item:hover {
   border-color: var(--lavender-border);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(124, 77, 240, 0.08);
+}
+
+/* Priority Indicator Left Strips */
+.task-item[data-priority="high"] {
+  border-left-color: var(--indicator-high);
+}
+
+.task-item[data-priority="medium"] {
+  border-left-color: var(--indicator-med);
+}
+
+.task-item[data-priority="low"] {
+  border-left-color: var(--indicator-low);
 }
 
 .task-item.completed {
   background-color: var(--bg-surface-subtle);
   border-color: var(--border-subtle);
+  border-left-color: var(--border-light);
+  opacity: 0.65;
+  transform: none;
+  box-shadow: none;
 }
 
 /* Custom Checkbox */
@@ -467,12 +602,12 @@ textarea:focus-visible {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
+  width: 21px;
+  height: 21px;
   margin-top: 1px;
   border-radius: 6px;
   border: 1.5px solid var(--border-focus);
-  background-color: #FFFFFF;
+  background-color: var(--bg-surface);
   flex-shrink: 0;
   transition: all var(--transition-fast);
   color: transparent;
@@ -481,17 +616,18 @@ textarea:focus-visible {
 
 .task-checkbox-btn:hover {
   border-color: var(--lavender-deep);
+  background-color: var(--lavender-subtle);
 }
 
 .task-item.completed .task-checkbox-btn {
-  background-color: var(--lavender-primary);
-  border-color: var(--lavender-primary);
+  background-color: var(--lavender-deep);
+  border-color: var(--lavender-deep);
   color: #FFFFFF;
 }
 
 .checkbox-check-icon {
-  width: 12px;
-  height: 12px;
+  width: 13px;
+  height: 13px;
   stroke: currentColor;
   stroke-width: 2.5;
   stroke-linecap: round;
@@ -504,12 +640,13 @@ textarea:focus-visible {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 6px;
   min-width: 0;
 }
 
 .task-title {
-  font-size: 0.92rem;
+  font-size: 0.94rem;
+  font-weight: 500;
   color: var(--text-main);
   line-height: 1.35;
   word-break: break-word;
@@ -525,7 +662,7 @@ textarea:focus-visible {
 .task-meta-row {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   flex-wrap: wrap;
 }
 
@@ -533,9 +670,9 @@ textarea:focus-visible {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  font-size: 0.72rem;
-  font-weight: 500;
-  padding: 2px 7px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 3px 8px;
   border-radius: var(--radius-sm);
   line-height: 1.2;
 }
@@ -548,17 +685,17 @@ textarea:focus-visible {
 
 .badge-date.today {
   background-color: var(--lavender-soft);
-  color: var(--lavender-darker);
-  border-color: var(--lavender-border);
-  font-weight: 600;
+  color: var(--lavender-deep);
+  border: 1px solid var(--lavender-border);
+  font-weight: 700;
 }
 
-/* Overdue Badge: Calm dusky mauve, NOT alarming neon */
+/* Overdue Badge */
 .badge-date.overdue {
   background-color: var(--overdue-bg);
   color: var(--overdue-text);
   border: 1px solid var(--overdue-border);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 /* Priorities */
@@ -575,12 +712,11 @@ textarea:focus-visible {
 .badge-priority.high {
   background-color: var(--priority-high-bg);
   color: var(--priority-high-text);
-  font-weight: 600;
 }
 
 .priority-dot {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background-color: currentColor;
 }
@@ -590,7 +726,7 @@ textarea:focus-visible {
   display: flex;
   align-items: center;
   gap: 3px;
-  opacity: 0.8;
+  opacity: 0.85;
   transition: opacity var(--transition-fast);
 }
 
@@ -602,8 +738,8 @@ textarea:focus-visible {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: 29px;
+  height: 29px;
   border-radius: var(--radius-sm);
   color: var(--text-muted);
   transition: all var(--transition-fast);
@@ -625,15 +761,15 @@ textarea:focus-visible {
   align-items: center;
   justify-content: space-between;
   padding: 6px 4px 0;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   color: var(--text-muted);
 }
 
 .btn-clear-completed {
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   color: var(--text-secondary);
   transition: color var(--transition-fast);
-  padding: 4px 6px;
+  padding: 4px 8px;
   border-radius: var(--radius-sm);
 }
 
@@ -652,10 +788,11 @@ textarea:focus-visible {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 36px 16px;
+  padding: 38px 16px;
   background-color: var(--bg-surface);
   border: 1px dashed var(--border-light);
   border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-subtle);
 }
 
 .empty-state.hidden {
@@ -663,19 +800,19 @@ textarea:focus-visible {
 }
 
 .empty-title {
-  font-size: 0.95rem;
-  font-weight: 500;
+  font-size: 0.98rem;
+  font-weight: 600;
   color: var(--text-main);
   margin-bottom: 4px;
 }
 
 .empty-hint {
-  font-size: 0.82rem;
+  font-size: 0.84rem;
   color: var(--text-secondary);
 }
 
 .empty-state.compact-empty {
-  padding: 22px 12px;
+  padding: 24px 12px;
   border-radius: var(--radius-md);
   margin-top: 8px;
 }
@@ -687,8 +824,8 @@ textarea:focus-visible {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-lg);
-  padding: 18px 16px;
-  box-shadow: var(--shadow-subtle);
+  padding: 20px 18px;
+  box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -701,8 +838,8 @@ textarea:focus-visible {
 }
 
 .calendar-month-title {
-  font-size: 1.05rem;
-  font-weight: 600;
+  font-size: 1.1rem;
+  font-weight: 700;
   color: var(--text-main);
   letter-spacing: -0.015em;
 }
@@ -714,10 +851,10 @@ textarea:focus-visible {
 }
 
 .btn-cal-today {
-  font-size: 0.78rem;
-  font-weight: 500;
+  font-size: 0.8rem;
+  font-weight: 600;
   color: var(--text-secondary);
-  padding: 4px 10px;
+  padding: 5px 12px;
   border-radius: var(--radius-pill);
   border: 1px solid var(--border-light);
   background-color: var(--bg-surface);
@@ -734,8 +871,8 @@ textarea:focus-visible {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   border-radius: var(--radius-sm);
   border: 1px solid var(--border-light);
   color: var(--text-secondary);
@@ -752,19 +889,19 @@ textarea:focus-visible {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   text-align: center;
-  font-size: 0.75rem;
-  font-weight: 600;
+  font-size: 0.76rem;
+  font-weight: 700;
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  padding-bottom: 2px;
+  letter-spacing: 0.05em;
+  padding-bottom: 4px;
 }
 
 /* Grid Days */
 .calendar-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 4px;
+  gap: 5px;
 }
 
 .cal-day-cell {
@@ -774,56 +911,61 @@ textarea:focus-visible {
   align-items: center;
   justify-content: center;
   height: 44px;
-  border-radius: var(--radius-md);
-  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid transparent;
   background-color: transparent;
-  font-size: 0.88rem;
-  font-weight: 400;
+  font-size: 0.9rem;
+  font-weight: 500;
   color: var(--text-main);
   transition: all var(--transition-fast);
   cursor: pointer;
 }
 
-.cal-day-cell:hover:not(.other-month) {
+.cal-day-cell:hover:not(.other-month):not(.is-today) {
   background-color: var(--bg-surface-subtle);
+  border-color: var(--border-light);
 }
 
 .cal-day-cell.other-month {
   color: var(--text-light);
   cursor: default;
+  opacity: 0.6;
 }
 
-/* Subtle Lavender Today Highlight */
+/* VIBRANT TODAY HIGHLIGHT BOX (Matching User Highlight Reference) */
 .cal-day-cell.is-today {
-  background-color: var(--lavender-soft);
-  color: var(--lavender-darker);
-  font-weight: 600;
+  background-color: var(--lavender-deep) !important;
+  color: #FFFFFF !important;
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 3px 12px rgba(124, 77, 240, 0.4);
 }
 
 /* Selected Date */
-.cal-day-cell.is-selected {
-  border-color: var(--lavender-primary);
-  background-color: var(--lavender-subtle);
-  font-weight: 600;
+.cal-day-cell.is-selected:not(.is-today) {
+  border-color: var(--lavender-deep);
+  background-color: var(--lavender-soft);
+  color: var(--lavender-deep);
+  font-weight: 700;
 }
 
 .cal-day-cell.is-today.is-selected {
-  background-color: var(--lavender-soft);
-  border-color: var(--lavender-deep);
+  outline: 2px solid var(--text-main);
+  outline-offset: 1px;
 }
 
 /* Task Indicator Dot */
 .cal-task-dot {
   position: absolute;
   bottom: 5px;
-  width: 4px;
-  height: 4px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
   background-color: var(--lavender-primary);
 }
 
 .cal-day-cell.is-today .cal-task-dot {
-  background-color: var(--lavender-darker);
+  background-color: #FFFFFF;
 }
 
 /* Selected Date Detail Card */
@@ -831,8 +973,8 @@ textarea:focus-visible {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-lg);
-  padding: 16px;
-  box-shadow: var(--shadow-subtle);
+  padding: 18px;
+  box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -845,14 +987,15 @@ textarea:focus-visible {
 }
 
 .day-detail-title {
-  font-size: 0.95rem;
+  font-size: 0.98rem;
   font-weight: 600;
   color: var(--text-main);
 }
 
 .day-detail-count {
-  font-size: 0.78rem;
-  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--lavender-deep);
 }
 
 /* Quick Add for Calendar Day */
@@ -867,8 +1010,8 @@ textarea:focus-visible {
   background-color: var(--bg-surface-subtle);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
-  padding: 8px 12px;
-  font-size: 0.88rem;
+  padding: 9px 13px;
+  font-size: 0.9rem;
   color: var(--text-main);
   transition: all var(--transition-fast);
 }
@@ -883,14 +1026,15 @@ textarea:focus-visible {
 }
 
 .btn-primary-add-compact {
-  padding: 8px 14px;
+  padding: 9px 16px;
   background-color: var(--lavender-deep);
   color: #FFFFFF;
   border-radius: var(--radius-md);
-  font-size: 0.84rem;
-  font-weight: 500;
+  font-size: 0.85rem;
+  font-weight: 600;
   transition: all var(--transition-fast);
   white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(124, 77, 240, 0.25);
 }
 
 .btn-primary-add-compact:hover {
@@ -899,7 +1043,7 @@ textarea:focus-visible {
 
 /* Mini task list inside calendar day */
 .mini-task-list .task-item {
-  padding: 10px 12px;
+  padding: 11px 13px;
 }
 
 /* ==========================================================================
@@ -932,7 +1076,7 @@ textarea:focus-visible {
 
 .search-icon {
   position: absolute;
-  left: 12px;
+  left: 14px;
   color: var(--text-muted);
   pointer-events: none;
 }
@@ -942,8 +1086,8 @@ textarea:focus-visible {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-pill);
-  padding: 8px 32px 8px 34px;
-  font-size: 0.85rem;
+  padding: 9px 34px 9px 38px;
+  font-size: 0.88rem;
   color: var(--text-main);
   box-shadow: var(--shadow-subtle);
   transition: all var(--transition-fast);
@@ -951,6 +1095,7 @@ textarea:focus-visible {
 
 .notes-search-input:focus {
   border-color: var(--lavender-primary);
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.12), var(--shadow-subtle);
 }
 
 .notes-search-input::placeholder {
@@ -959,8 +1104,8 @@ textarea:focus-visible {
 
 .btn-clear-search {
   position: absolute;
-  right: 10px;
-  font-size: 1.1rem;
+  right: 12px;
+  font-size: 1.15rem;
   color: var(--text-muted);
   padding: 2px 6px;
   cursor: pointer;
@@ -974,7 +1119,7 @@ textarea:focus-visible {
 .notes-items-list {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 9px;
 }
 
 .note-card-item {
@@ -983,16 +1128,20 @@ textarea:focus-visible {
   gap: 6px;
   background-color: var(--bg-surface);
   border: 1px solid var(--border-light);
+  border-left: 4px solid var(--indicator-none);
   border-radius: var(--radius-md);
-  padding: 14px 16px;
-  box-shadow: var(--shadow-subtle);
+  padding: 15px 17px;
+  box-shadow: var(--shadow-card);
   transition: all var(--transition-fast);
   cursor: pointer;
 }
 
 .note-card-item:hover {
   border-color: var(--lavender-border);
-  background-color: var(--lavender-subtle);
+  border-left-color: var(--lavender-primary);
+  background-color: var(--bg-surface);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(124, 77, 240, 0.08);
 }
 
 .note-card-top {
@@ -1003,7 +1152,7 @@ textarea:focus-visible {
 }
 
 .note-card-title {
-  font-size: 0.95rem;
+  font-size: 0.98rem;
   font-weight: 600;
   color: var(--text-main);
   line-height: 1.3;
@@ -1013,9 +1162,9 @@ textarea:focus-visible {
 }
 
 .note-card-excerpt {
-  font-size: 0.82rem;
+  font-size: 0.84rem;
   color: var(--text-secondary);
-  line-height: 1.4;
+  line-height: 1.45;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -1026,11 +1175,11 @@ textarea:focus-visible {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 2px;
+  margin-top: 3px;
 }
 
 .note-card-date {
-  font-size: 0.74rem;
+  font-size: 0.76rem;
   color: var(--text-muted);
 }
 
@@ -1046,11 +1195,14 @@ textarea:focus-visible {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.85rem;
-  font-weight: 500;
+  font-size: 0.88rem;
+  font-weight: 600;
   color: var(--lavender-deep);
-  padding: 6px 10px;
+  padding: 7px 12px;
   border-radius: var(--radius-sm);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  box-shadow: var(--shadow-subtle);
   transition: all var(--transition-fast);
 }
 
@@ -1065,16 +1217,17 @@ textarea:focus-visible {
 }
 
 .save-status-indicator {
-  font-size: 0.75rem;
-  color: var(--text-muted);
+  font-size: 0.78rem;
+  color: var(--lavender-deep);
+  font-weight: 600;
 }
 
 .btn-icon-subtle {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: var(--radius-sm);
   color: var(--text-muted);
   transition: all var(--transition-fast);
@@ -1095,17 +1248,17 @@ textarea:focus-visible {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-lg);
-  padding: 20px 20px 24px;
-  box-shadow: var(--shadow-subtle);
+  padding: 22px 22px 26px;
+  box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
   gap: 10px;
-  min-height: 380px;
+  min-height: 400px;
 }
 
 .editor-title-input {
-  font-size: 1.25rem;
-  font-weight: 600;
+  font-size: 1.3rem;
+  font-weight: 700;
   color: var(--text-main);
   letter-spacing: -0.02em;
   padding: 0;
@@ -1119,7 +1272,7 @@ textarea:focus-visible {
 }
 
 .editor-date-stamp {
-  font-size: 0.74rem;
+  font-size: 0.76rem;
   color: var(--text-muted);
   margin-bottom: 6px;
 }
@@ -1127,10 +1280,10 @@ textarea:focus-visible {
 .editor-body-textarea {
   width: 100%;
   flex: 1;
-  min-height: 280px;
+  min-height: 290px;
   resize: vertical;
-  font-size: 0.92rem;
-  line-height: 1.65;
+  font-size: 0.94rem;
+  line-height: 1.7;
   color: var(--text-main);
   border: none;
   outline: none;
@@ -1146,13 +1299,13 @@ textarea:focus-visible {
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background-color: rgba(40, 38, 49, 0.35);
+  background-color: rgba(16, 14, 24, 0.45);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 16px;
   z-index: 1000;
-  backdrop-filter: blur(2px);
+  backdrop-filter: blur(3px);
 }
 
 .modal-backdrop.hidden {
@@ -1165,7 +1318,7 @@ textarea:focus-visible {
   background-color: var(--bg-surface);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-lg);
-  padding: 20px;
+  padding: 22px;
   box-shadow: var(--shadow-modal);
   display: flex;
   flex-direction: column;
@@ -1191,8 +1344,8 @@ textarea:focus-visible {
 }
 
 .modal-title {
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 1.05rem;
+  font-weight: 700;
   color: var(--text-main);
 }
 
@@ -1218,8 +1371,8 @@ textarea:focus-visible {
 }
 
 .modal-label {
-  font-size: 0.78rem;
-  font-weight: 500;
+  font-size: 0.8rem;
+  font-weight: 600;
   color: var(--text-secondary);
 }
 
@@ -1227,8 +1380,8 @@ textarea:focus-visible {
   background-color: var(--bg-surface-subtle);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
-  padding: 8px 10px;
-  font-size: 0.88rem;
+  padding: 9px 12px;
+  font-size: 0.9rem;
   color: var(--text-main);
   transition: all var(--transition-fast);
 }
@@ -1247,8 +1400,8 @@ textarea:focus-visible {
 }
 
 .btn-modal-cancel {
-  padding: 8px 14px;
-  font-size: 0.84rem;
+  padding: 8px 16px;
+  font-size: 0.85rem;
   font-weight: 500;
   color: var(--text-secondary);
   border-radius: var(--radius-pill);
@@ -1261,13 +1414,14 @@ textarea:focus-visible {
 }
 
 .btn-modal-save {
-  padding: 8px 18px;
-  font-size: 0.84rem;
-  font-weight: 500;
+  padding: 8px 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
   color: #FFFFFF;
   background-color: var(--lavender-deep);
   border-radius: var(--radius-pill);
   transition: all var(--transition-fast);
+  box-shadow: 0 2px 8px rgba(124, 77, 240, 0.25);
 }
 
 .btn-modal-save:hover {
@@ -1279,7 +1433,7 @@ textarea:focus-visible {
    ========================================================================== */
 @media (max-width: 480px) {
   .app-container {
-    padding: 20px 14px 60px;
+    padding: 22px 14px 60px;
     gap: 18px;
   }
 
@@ -1300,7 +1454,7 @@ textarea:focus-visible {
 
   .cal-day-cell {
     height: 38px;
-    font-size: 0.82rem;
+    font-size: 0.84rem;
   }
 
   .modal-row-fields {
