@@ -1,0 +1,1309 @@
+/* ==========================================================================
+   DAYNOTE — Minimal Lavender Productivity App
+   Clean, quiet visual hierarchy, generous whitespace, soft lavender palette.
+   ========================================================================== */
+
+/* --- Custom Properties / Design Tokens --- */
+:root {
+  /* Core Backgrounds */
+  --bg-app: #FAF9FC;
+  --bg-surface: #FFFFFF;
+  --bg-surface-subtle: #F6F4F9;
+  --bg-surface-hover: #F2EEF8;
+  
+  /* Lavender Accents */
+  --lavender-primary: #A78BFA;
+  --lavender-deep: #7C5CC5;
+  --lavender-darker: #6343AE;
+  --lavender-soft: #EDE8F9;
+  --lavender-subtle: #F5F2FC;
+  --lavender-border: #E5DEF4;
+
+  /* Text & Charcoal */
+  --text-main: #282631;
+  --text-secondary: #656172;
+  --text-muted: #9591A2;
+  --text-light: #B7B4C4;
+
+  /* Borders & Dividers */
+  --border-light: #EBE7F2;
+  --border-subtle: #F0EDF6;
+  --border-focus: #C4B5FD;
+
+  /* Gentle Status Accents (strictly non-alarming) */
+  --overdue-bg: #F8EEF1;
+  --overdue-text: #8C5A68;
+  --overdue-border: #EED7DC;
+  
+  --priority-high-bg: #F8EEF1;
+  --priority-high-text: #8C5A68;
+  --priority-med-bg: #F1EDFA;
+  --priority-med-text: #6D51A8;
+  --priority-low-bg: #EFF1F5;
+  --priority-low-text: #5A6578;
+
+  /* Shadows (Minimal, soft, only when necessary) */
+  --shadow-subtle: 0 1px 3px rgba(40, 38, 49, 0.04), 0 1px 2px rgba(40, 38, 49, 0.02);
+  --shadow-modal: 0 8px 24px rgba(40, 38, 49, 0.08), 0 2px 6px rgba(40, 38, 49, 0.04);
+
+  /* Typography & Sizing */
+  --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-pill: 9999px;
+
+  /* Transitions */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.2s ease;
+}
+
+/* --- Global Reset & Box Sizing --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  overflow-x: hidden;
+}
+
+/* Form and button baseline */
+button, input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+button {
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+/* Accessibility Focus Ring */
+button:focus-visible, 
+input:focus-visible, 
+select:focus-visible, 
+textarea:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 1px;
+}
+
+/* --- Container (Single-column, Mobile-first) --- */
+.app-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 28px 18px 80px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* --- Header --- */
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 4px;
+}
+
+.header-brand-group {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.brand-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--lavender-primary);
+  display: inline-block;
+}
+
+.brand-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--text-main);
+}
+
+.current-date {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+/* Subtle Add Button */
+.btn-subtle-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: var(--radius-pill);
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  color: var(--text-main);
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-subtle);
+  min-height: 38px;
+}
+
+.btn-subtle-add:hover {
+  background-color: var(--lavender-subtle);
+  border-color: var(--lavender-border);
+  color: var(--lavender-deep);
+}
+
+.btn-subtle-add:active {
+  transform: scale(0.98);
+}
+
+/* --- Navigation Tabs --- */
+.app-nav {
+  display: flex;
+  width: 100%;
+}
+
+.nav-tabs-wrapper {
+  display: flex;
+  width: 100%;
+  background-color: var(--bg-surface-subtle);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-pill);
+  padding: 3px;
+  gap: 3px;
+}
+
+.nav-tab {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 8px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+  min-height: 38px;
+}
+
+.nav-tab:hover {
+  color: var(--text-main);
+}
+
+.nav-tab.active {
+  background-color: var(--bg-surface);
+  color: var(--text-main);
+  font-weight: 600;
+  box-shadow: var(--shadow-subtle);
+}
+
+.tab-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: var(--radius-pill);
+  background-color: var(--lavender-soft);
+  color: var(--lavender-deep);
+  font-size: 0.72rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* --- Main Layout Views --- */
+.app-main {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.tab-view {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 100%;
+}
+
+.tab-view.hidden {
+  display: none;
+}
+
+/* ==========================================================================
+   TASKS VIEW STYLES
+   ========================================================================== */
+
+/* Filter Pills Bar */
+.tasks-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: none;
+}
+.tasks-filter-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.filter-pill {
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background-color: transparent;
+  border: 1px solid transparent;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.filter-pill:hover {
+  color: var(--text-main);
+  background-color: var(--bg-surface-subtle);
+}
+
+.filter-pill.active {
+  background-color: var(--lavender-soft);
+  color: var(--lavender-darker);
+  font-weight: 600;
+  border-color: var(--lavender-border);
+}
+
+/* Task Input Card */
+.task-input-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 14px 16px;
+  box-shadow: var(--shadow-subtle);
+  transition: border-color var(--transition-fast);
+}
+
+.task-input-card:focus-within {
+  border-color: var(--lavender-primary);
+}
+
+.task-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.task-text-input {
+  width: 100%;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  line-height: 1.4;
+  padding: 2px 0;
+}
+
+.task-text-input::placeholder {
+  color: var(--text-muted);
+}
+
+.form-options-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.form-options-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.custom-field {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background-color: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 5px 8px;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  transition: all var(--transition-fast);
+}
+
+.custom-field:hover,
+.custom-field:focus-within {
+  border-color: var(--border-light);
+  background-color: var(--bg-surface);
+  color: var(--text-main);
+}
+
+.field-icon {
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.date-input {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.priority-select {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  background: transparent;
+}
+
+.btn-primary-add {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 16px;
+  background-color: var(--lavender-deep);
+  color: #FFFFFF;
+  border-radius: var(--radius-pill);
+  font-size: 0.84rem;
+  font-weight: 500;
+  transition: all var(--transition-fast);
+  margin-left: auto;
+  min-height: 32px;
+}
+
+.btn-primary-add:hover {
+  background-color: var(--lavender-darker);
+}
+
+.btn-primary-add:active {
+  transform: scale(0.97);
+}
+
+.form-error-msg {
+  font-size: 0.78rem;
+  color: var(--overdue-text);
+  min-height: 0;
+}
+
+/* Task List */
+.task-list-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Individual Task Row */
+.task-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  box-shadow: var(--shadow-subtle);
+  transition: background-color var(--transition-fast), border-color var(--transition-fast), opacity var(--transition-fast);
+}
+
+.task-item:hover {
+  border-color: var(--lavender-border);
+}
+
+.task-item.completed {
+  background-color: var(--bg-surface-subtle);
+  border-color: var(--border-subtle);
+}
+
+/* Custom Checkbox */
+.task-checkbox-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  border-radius: 6px;
+  border: 1.5px solid var(--border-focus);
+  background-color: #FFFFFF;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+  color: transparent;
+  padding: 0;
+}
+
+.task-checkbox-btn:hover {
+  border-color: var(--lavender-deep);
+}
+
+.task-item.completed .task-checkbox-btn {
+  background-color: var(--lavender-primary);
+  border-color: var(--lavender-primary);
+  color: #FFFFFF;
+}
+
+.checkbox-check-icon {
+  width: 12px;
+  height: 12px;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+/* Task Content */
+.task-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.task-title {
+  font-size: 0.92rem;
+  color: var(--text-main);
+  line-height: 1.35;
+  word-break: break-word;
+  transition: color var(--transition-fast);
+}
+
+.task-item.completed .task-title {
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+/* Meta Badges */
+.task-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.72rem;
+  font-weight: 500;
+  padding: 2px 7px;
+  border-radius: var(--radius-sm);
+  line-height: 1.2;
+}
+
+.badge-date {
+  background-color: var(--bg-surface-subtle);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+}
+
+.badge-date.today {
+  background-color: var(--lavender-soft);
+  color: var(--lavender-darker);
+  border-color: var(--lavender-border);
+  font-weight: 600;
+}
+
+/* Overdue Badge: Calm dusky mauve, NOT alarming neon */
+.badge-date.overdue {
+  background-color: var(--overdue-bg);
+  color: var(--overdue-text);
+  border: 1px solid var(--overdue-border);
+  font-weight: 500;
+}
+
+/* Priorities */
+.badge-priority.low {
+  background-color: var(--priority-low-bg);
+  color: var(--priority-low-text);
+}
+
+.badge-priority.medium {
+  background-color: var(--priority-med-bg);
+  color: var(--priority-med-text);
+}
+
+.badge-priority.high {
+  background-color: var(--priority-high-bg);
+  color: var(--priority-high-text);
+  font-weight: 600;
+}
+
+.priority-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: currentColor;
+}
+
+/* Task Action Buttons */
+.task-actions {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  opacity: 0.8;
+  transition: opacity var(--transition-fast);
+}
+
+.task-item:hover .task-actions {
+  opacity: 1;
+}
+
+.btn-task-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+}
+
+.btn-task-action:hover {
+  background-color: var(--bg-surface-subtle);
+  color: var(--text-main);
+}
+
+.btn-task-action.delete-action:hover {
+  background-color: var(--overdue-bg);
+  color: var(--overdue-text);
+}
+
+/* Tasks Footer */
+.tasks-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 4px 0;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.btn-clear-completed {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  transition: color var(--transition-fast);
+  padding: 4px 6px;
+  border-radius: var(--radius-sm);
+}
+
+.btn-clear-completed:hover {
+  color: var(--overdue-text);
+}
+
+.btn-clear-completed.hidden {
+  display: none;
+}
+
+/* Empty States */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 36px 16px;
+  background-color: var(--bg-surface);
+  border: 1px dashed var(--border-light);
+  border-radius: var(--radius-lg);
+}
+
+.empty-state.hidden {
+  display: none;
+}
+
+.empty-title {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-main);
+  margin-bottom: 4px;
+}
+
+.empty-hint {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.empty-state.compact-empty {
+  padding: 22px 12px;
+  border-radius: var(--radius-md);
+  margin-top: 8px;
+}
+
+/* ==========================================================================
+   CALENDAR VIEW STYLES
+   ========================================================================== */
+.calendar-container {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 18px 16px;
+  box-shadow: var(--shadow-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.calendar-month-title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-main);
+  letter-spacing: -0.015em;
+}
+
+.calendar-nav-buttons {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-cal-today {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-light);
+  background-color: var(--bg-surface);
+  transition: all var(--transition-fast);
+}
+
+.btn-cal-today:hover {
+  background-color: var(--lavender-subtle);
+  color: var(--lavender-deep);
+  border-color: var(--lavender-border);
+}
+
+.btn-cal-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-light);
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+
+.btn-cal-nav:hover {
+  background-color: var(--bg-surface-subtle);
+  color: var(--text-main);
+}
+
+/* Weekday column headers */
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding-bottom: 2px;
+}
+
+/* Grid Days */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.cal-day-cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  background-color: transparent;
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: var(--text-main);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.cal-day-cell:hover:not(.other-month) {
+  background-color: var(--bg-surface-subtle);
+}
+
+.cal-day-cell.other-month {
+  color: var(--text-light);
+  cursor: default;
+}
+
+/* Subtle Lavender Today Highlight */
+.cal-day-cell.is-today {
+  background-color: var(--lavender-soft);
+  color: var(--lavender-darker);
+  font-weight: 600;
+}
+
+/* Selected Date */
+.cal-day-cell.is-selected {
+  border-color: var(--lavender-primary);
+  background-color: var(--lavender-subtle);
+  font-weight: 600;
+}
+
+.cal-day-cell.is-today.is-selected {
+  background-color: var(--lavender-soft);
+  border-color: var(--lavender-deep);
+}
+
+/* Task Indicator Dot */
+.cal-task-dot {
+  position: absolute;
+  bottom: 5px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: var(--lavender-primary);
+}
+
+.cal-day-cell.is-today .cal-task-dot {
+  background-color: var(--lavender-darker);
+}
+
+/* Selected Date Detail Card */
+.calendar-day-detail-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  box-shadow: var(--shadow-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.day-detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.day-detail-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.day-detail-count {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+/* Quick Add for Calendar Day */
+.calendar-quick-add-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quick-task-input {
+  flex: 1;
+  background-color: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 8px 12px;
+  font-size: 0.88rem;
+  color: var(--text-main);
+  transition: all var(--transition-fast);
+}
+
+.quick-task-input:focus {
+  border-color: var(--lavender-primary);
+  background-color: var(--bg-surface);
+}
+
+.quick-task-input::placeholder {
+  color: var(--text-muted);
+}
+
+.btn-primary-add-compact {
+  padding: 8px 14px;
+  background-color: var(--lavender-deep);
+  color: #FFFFFF;
+  border-radius: var(--radius-md);
+  font-size: 0.84rem;
+  font-weight: 500;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+
+.btn-primary-add-compact:hover {
+  background-color: var(--lavender-darker);
+}
+
+/* Mini task list inside calendar day */
+.mini-task-list .task-item {
+  padding: 10px 12px;
+}
+
+/* ==========================================================================
+   NOTES VIEW STYLES
+   ========================================================================== */
+.notes-view-pane {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.notes-view-pane.hidden {
+  display: none;
+}
+
+/* Notes Toolbar */
+.notes-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.notes-search-wrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.notes-search-input {
+  width: 100%;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-pill);
+  padding: 8px 32px 8px 34px;
+  font-size: 0.85rem;
+  color: var(--text-main);
+  box-shadow: var(--shadow-subtle);
+  transition: all var(--transition-fast);
+}
+
+.notes-search-input:focus {
+  border-color: var(--lavender-primary);
+}
+
+.notes-search-input::placeholder {
+  color: var(--text-muted);
+}
+
+.btn-clear-search {
+  position: absolute;
+  right: 10px;
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  padding: 2px 6px;
+  cursor: pointer;
+}
+
+.btn-clear-search.hidden {
+  display: none;
+}
+
+/* Notes List */
+.notes-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.note-card-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  box-shadow: var(--shadow-subtle);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.note-card-item:hover {
+  border-color: var(--lavender-border);
+  background-color: var(--lavender-subtle);
+}
+
+.note-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.note-card-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-main);
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.note-card-excerpt {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.note-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2px;
+}
+
+.note-card-date {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+}
+
+/* Note Editor Pane (Single-column distraction-free) */
+.editor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 4px;
+}
+
+.btn-editor-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--lavender-deep);
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.btn-editor-back:hover {
+  background-color: var(--lavender-soft);
+}
+
+.editor-header-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.save-status-indicator {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.btn-icon-subtle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+}
+
+.btn-icon-subtle:hover {
+  background-color: var(--bg-surface-subtle);
+  color: var(--text-main);
+}
+
+.btn-icon-subtle.danger-hover:hover {
+  background-color: var(--overdue-bg);
+  color: var(--overdue-text);
+}
+
+/* Editor Input & Area */
+.editor-body-wrapper {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 20px 20px 24px;
+  box-shadow: var(--shadow-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 380px;
+}
+
+.editor-title-input {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--text-main);
+  letter-spacing: -0.02em;
+  padding: 0;
+  line-height: 1.3;
+  outline: none;
+  border: none;
+}
+
+.editor-title-input::placeholder {
+  color: var(--text-light);
+}
+
+.editor-date-stamp {
+  font-size: 0.74rem;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+.editor-body-textarea {
+  width: 100%;
+  flex: 1;
+  min-height: 280px;
+  resize: vertical;
+  font-size: 0.92rem;
+  line-height: 1.65;
+  color: var(--text-main);
+  border: none;
+  outline: none;
+}
+
+.editor-body-textarea::placeholder {
+  color: var(--text-light);
+}
+
+/* ==========================================================================
+   EDIT TASK MODAL
+   ========================================================================== */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(40, 38, 49, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  z-index: 1000;
+  backdrop-filter: blur(2px);
+}
+
+.modal-backdrop.hidden {
+  display: none;
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 440px;
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--shadow-modal);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: modalFadeIn 0.15s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.modal-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.modal-field-group.flex-1 {
+  flex: 1;
+}
+
+.modal-row-fields {
+  display: flex;
+  gap: 12px;
+}
+
+.modal-label {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.modal-input {
+  background-color: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  font-size: 0.88rem;
+  color: var(--text-main);
+  transition: all var(--transition-fast);
+}
+
+.modal-input:focus {
+  background-color: var(--bg-surface);
+  border-color: var(--lavender-primary);
+}
+
+.modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.btn-modal-cancel {
+  padding: 8px 14px;
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border-radius: var(--radius-pill);
+  transition: all var(--transition-fast);
+}
+
+.btn-modal-cancel:hover {
+  background-color: var(--bg-surface-subtle);
+  color: var(--text-main);
+}
+
+.btn-modal-save {
+  padding: 8px 18px;
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: #FFFFFF;
+  background-color: var(--lavender-deep);
+  border-radius: var(--radius-pill);
+  transition: all var(--transition-fast);
+}
+
+.btn-modal-save:hover {
+  background-color: var(--lavender-darker);
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (Mobile First)
+   ========================================================================== */
+@media (max-width: 480px) {
+  .app-container {
+    padding: 20px 14px 60px;
+    gap: 18px;
+  }
+
+  .form-options-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .form-options-left {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .btn-primary-add {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .cal-day-cell {
+    height: 38px;
+    font-size: 0.82rem;
+  }
+
+  .modal-row-fields {
+    flex-direction: column;
+  }
+}

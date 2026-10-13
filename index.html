@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daynote — Minimal Lavender Productivity</title>
+  <meta name="description" content="A calm, minimal lavender productivity app for your daily tasks, calendar, and notes.">
+  
+  <!-- Modern clean typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-container">
+    
+    <!-- Header -->
+    <header class="app-header">
+      <div class="header-brand-group">
+        <div class="brand-row">
+          <span class="brand-dot" aria-hidden="true"></span>
+          <h1 class="brand-title">Daynote</h1>
+        </div>
+        <p class="current-date" id="current-date-display">Loading date...</p>
+      </div>
+
+      <button type="button" class="btn-subtle-add" id="btn-header-add-task" aria-label="Add new task">
+        <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+        <span>Add task</span>
+      </button>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="app-nav" aria-label="Main Navigation">
+      <div class="nav-tabs-wrapper" role="tablist">
+        <button type="button" role="tab" class="nav-tab active" id="tab-tasks" data-tab="tasks" aria-selected="true" aria-controls="view-tasks">
+          Tasks
+          <span class="tab-badge" id="tasks-badge" aria-label="Active tasks count">0</span>
+        </button>
+        <button type="button" role="tab" class="nav-tab" id="tab-calendar" data-tab="calendar" aria-selected="false" aria-controls="view-calendar">
+          Calendar
+        </button>
+        <button type="button" role="tab" class="nav-tab" id="tab-notes" data-tab="notes" aria-selected="false" aria-controls="view-notes">
+          Notes
+          <span class="tab-badge" id="notes-badge" aria-label="Notes count">0</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="app-main">
+
+      <!-- ========================================== -->
+      <!-- SECTION 1: TASKS -->
+      <!-- ========================================== -->
+      <section id="view-tasks" class="tab-view active" role="tabpanel" aria-labelledby="tab-tasks">
+        
+        <!-- Filter Tabs -->
+        <div class="tasks-filter-bar" role="group" aria-label="Filter tasks">
+          <button type="button" class="filter-pill active" data-filter="all">All</button>
+          <button type="button" class="filter-pill" data-filter="today">Today</button>
+          <button type="button" class="filter-pill" data-filter="upcoming">Upcoming</button>
+          <button type="button" class="filter-pill" data-filter="completed">Completed</button>
+        </div>
+
+        <!-- Task Input Card -->
+        <div class="task-input-card" id="task-input-section">
+          <form id="task-create-form" class="task-form" autocomplete="off">
+            <div class="form-title-row">
+              <input 
+                type="text" 
+                id="task-title-input" 
+                class="task-text-input" 
+                placeholder="What needs to be done?" 
+                maxlength="140"
+                required
+              />
+            </div>
+            
+            <div class="form-options-row">
+              <div class="form-options-left">
+                <!-- Date Picker -->
+                <div class="custom-field date-field" title="Set due date">
+                  <svg class="icon-svg field-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                  </svg>
+                  <input type="date" id="task-date-input" class="date-input" aria-label="Task due date" />
+                </div>
+
+                <!-- Priority Selector -->
+                <div class="custom-field select-field" title="Set priority">
+                  <svg class="icon-svg field-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                  </svg>
+                  <select id="task-priority-input" class="priority-select" aria-label="Task priority">
+                    <option value="none">Priority</option>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                  </select>
+                </div>
+              </div>
+
+              <button type="submit" class="btn-primary-add" id="btn-submit-task">
+                <span>Add</span>
+              </button>
+            </div>
+            <div id="task-form-error" class="form-error-msg" aria-live="polite"></div>
+          </form>
+        </div>
+
+        <!-- Task List -->
+        <div class="task-list-wrapper">
+          <ul id="tasks-list" class="task-list" aria-label="Tasks">
+            <!-- Dynamically populated -->
+          </ul>
+          
+          <!-- Empty State -->
+          <div id="tasks-empty-state" class="empty-state hidden">
+            <p class="empty-title" id="empty-state-message">No tasks found</p>
+            <p class="empty-hint">Take a breath, or write down a new to-do above.</p>
+          </div>
+
+          <!-- Tasks Footer Summary / Actions -->
+          <div class="tasks-footer" id="tasks-footer">
+            <span class="tasks-count-summary" id="tasks-count-summary">0 tasks</span>
+            <button type="button" class="btn-clear-completed hidden" id="btn-clear-completed">
+              Clear completed
+            </button>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ========================================== -->
+      <!-- SECTION 2: CALENDAR -->
+      <!-- ========================================== -->
+      <section id="view-calendar" class="tab-view hidden" role="tabpanel" aria-labelledby="tab-calendar">
+        
+        <div class="calendar-container">
+          <!-- Calendar Header Navigation -->
+          <div class="calendar-header">
+            <div class="calendar-title-group">
+              <h2 class="calendar-month-title" id="calendar-month-label">October 2026</h2>
+            </div>
+            <div class="calendar-nav-buttons">
+              <button type="button" class="btn-cal-today" id="btn-cal-today">Today</button>
+              <button type="button" class="btn-cal-nav" id="btn-cal-prev" aria-label="Previous month">
+                <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+              </button>
+              <button type="button" class="btn-cal-nav" id="btn-cal-next" aria-label="Next month">
+                <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Weekday labels -->
+          <div class="calendar-weekdays" aria-hidden="true">
+            <span>Mon</span>
+            <span>Tue</span>
+            <span>Wed</span>
+            <span>Thu</span>
+            <span>Fri</span>
+            <span>Sat</span>
+            <span>Sun</span>
+          </div>
+
+          <!-- Calendar Days Grid -->
+          <div class="calendar-grid" id="calendar-grid" role="grid" aria-label="Monthly Calendar">
+            <!-- Dynamically populated cells -->
+          </div>
+        </div>
+
+        <!-- Selected Date Tasks Section -->
+        <div class="calendar-day-detail-card" id="calendar-day-detail">
+          <div class="day-detail-header">
+            <div class="day-detail-title-group">
+              <h3 class="day-detail-title" id="selected-date-heading">Tasks for selected date</h3>
+              <span class="day-detail-count" id="selected-date-count">0 tasks</span>
+            </div>
+          </div>
+
+          <!-- Inline quick add for selected date -->
+          <form id="calendar-task-add-form" class="calendar-quick-add-form" autocomplete="off">
+            <input 
+              type="text" 
+              id="calendar-quick-task-input" 
+              class="quick-task-input" 
+              placeholder="Add task for this date..." 
+              maxlength="140"
+              required
+            />
+            <button type="submit" class="btn-primary-add-compact" id="btn-cal-add-task">
+              <span>Add</span>
+            </button>
+          </form>
+
+          <!-- Day tasks list -->
+          <ul id="selected-date-tasks-list" class="task-list mini-task-list" aria-label="Selected date tasks">
+            <!-- Dynamically populated -->
+          </ul>
+
+          <div id="calendar-day-empty" class="empty-state compact-empty">
+            <p class="empty-title">No tasks for this date</p>
+            <p class="empty-hint">Add one above or select another day.</p>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ========================================== -->
+      <!-- SECTION 3: NOTES -->
+      <!-- ========================================== -->
+      <section id="view-notes" class="tab-view hidden" role="tabpanel" aria-labelledby="tab-notes">
+        
+        <!-- Notes List View -->
+        <div id="notes-list-view" class="notes-view-pane active">
+          <div class="notes-toolbar">
+            <div class="notes-search-wrapper">
+              <svg class="icon-svg search-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input 
+                type="text" 
+                id="notes-search-input" 
+                class="notes-search-input" 
+                placeholder="Search notes..." 
+                aria-label="Search notes"
+              />
+              <button type="button" class="btn-clear-search hidden" id="btn-clear-notes-search" aria-label="Clear search">
+                &times;
+              </button>
+            </div>
+
+            <button type="button" class="btn-subtle-add" id="btn-create-note">
+              <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              <span>New note</span>
+            </button>
+          </div>
+
+          <!-- Notes Items List -->
+          <div class="notes-list-wrapper">
+            <ul id="notes-items-list" class="notes-items-list" aria-label="Saved notes list">
+              <!-- Dynamically populated -->
+            </ul>
+
+            <div id="notes-empty-state" class="empty-state">
+              <p class="empty-title" id="notes-empty-title">No notes yet</p>
+              <p class="empty-hint" id="notes-empty-hint">Capture your thoughts, ideas, or quick lists anytime.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Notes Editor View (Clean single column) -->
+        <div id="notes-editor-view" class="notes-view-pane hidden">
+          <div class="editor-header">
+            <button type="button" class="btn-editor-back" id="btn-editor-back" aria-label="Back to notes list">
+              <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+              <span>Notes</span>
+            </button>
+
+            <div class="editor-header-meta">
+              <span class="save-status-indicator" id="note-save-status">Saved</span>
+              <button type="button" class="btn-icon-subtle danger-hover" id="btn-delete-current-note" title="Delete note" aria-label="Delete note">
+                <svg class="icon-svg" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="editor-body-wrapper">
+            <input 
+              type="text" 
+              id="editor-note-title" 
+              class="editor-title-input" 
+              placeholder="Untitled note" 
+              maxlength="100"
+            />
+            <div class="editor-date-stamp" id="editor-note-date">Edited just now</div>
+            <textarea 
+              id="editor-note-body" 
+              class="editor-body-textarea" 
+              placeholder="Start writing..."
+            ></textarea>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- Modal / Dialog for editing a task -->
+    <div id="task-edit-modal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="edit-modal-title">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3 id="edit-modal-title" class="modal-title">Edit Task</h3>
+          <button type="button" class="btn-icon-subtle" id="btn-close-edit-modal" aria-label="Close edit modal">
+            <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+
+        <form id="task-edit-form" class="modal-form" autocomplete="off">
+          <input type="hidden" id="edit-task-id" />
+          
+          <div class="modal-field-group">
+            <label for="edit-task-title" class="modal-label">Task description</label>
+            <input type="text" id="edit-task-title" class="modal-input" required maxlength="140" />
+          </div>
+
+          <div class="modal-row-fields">
+            <div class="modal-field-group flex-1">
+              <label for="edit-task-date" class="modal-label">Due date</label>
+              <input type="date" id="edit-task-date" class="modal-input" />
+            </div>
+
+            <div class="modal-field-group flex-1">
+              <label for="edit-task-priority" class="modal-label">Priority</label>
+              <select id="edit-task-priority" class="modal-input">
+                <option value="none">None</option>
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" class="btn-modal-cancel" id="btn-cancel-edit">Cancel</button>
+            <button type="submit" class="btn-modal-save" id="btn-save-edit">Save changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
